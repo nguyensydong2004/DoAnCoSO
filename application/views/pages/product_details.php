@@ -70,7 +70,7 @@
                             <span>
                                 <span><?php echo number_format($pro->price,0,',','.') ?>VND</span><br/>
                                 <label>Quantity:<?php echo $pro->quantity ?></label>
-                                <input type="text" value="1" name = "quantity" />
+                                <input type="number" min="1" value="1" name = "quantity" />
                                 <button type="submit" class="btn btn-fefault cart">
                                     <i class="fa fa-shopping-cart"></i>
                                     Add to cart
