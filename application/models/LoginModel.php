@@ -5,6 +5,20 @@ class LoginModel extends CI_Model {
         return $query->result();
       
     }
+
+    public function checkLoginCustomer($email, $password){
+        $query = $this->db->where('email', $email)->where('password', $password)->get('customers');
+        return $query->result();
+      
+    }
+
+    public function NewCustomer($data){
+        return $this->db->insert('customers',$data  );
+    }
+
+    public function NewShipping($data){
+        return $this->db->insert('shipping',$data  );
+    }
 }
    
 

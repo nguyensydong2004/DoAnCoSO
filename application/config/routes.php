@@ -17,12 +17,19 @@ $route['delete-item/(:any)']['GET'] = 'IndexController/delete_item/$1';
 $route['update-cart-item']['POST'] = 'IndexController/update_cart_item';
 $route['dang-nhap']['GET'] = 'IndexController/login';
 $route['checkout']['GET'] = 'IndexController/checkout';
+$route['confirm-checkout']['POST'] = 'IndexController/confirm_checkout';
+$route['dang-xuat']['GET'] = 'IndexController/dang_xuat';
+
 
 
 //login
 $route['login']['GET'] = 'LoginController/index';
 $route['login-user']['POST'] = 'LoginController/login';
+$route['login-customer']['POST'] = 'IndexController/login_customer';
+$route['dang-ky']['POST'] = 'IndexController/dang_ky';
 
+
+//dashboard
 $route['dashboard']['GET'] = 'DashboardController/index';
 $route['logout']['GET'] = 'DashboardController/logout';
 

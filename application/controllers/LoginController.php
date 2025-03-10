@@ -36,7 +36,7 @@ class LoginController extends CI_Controller {
 			else
 			{
 				$this->session->set_flashdata('error', 'Login failed');
-				redirect(base_url('login'));
+				redirect(base_url('/login'));
 			}
 		}
 		else
@@ -44,4 +44,5 @@ class LoginController extends CI_Controller {
 			$this->index();
 		}
 	}
+
 }

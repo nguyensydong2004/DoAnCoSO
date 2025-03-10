@@ -59,10 +59,14 @@ class IndexController extends CI_Controller {
 
 	public function checkout()
 	{
+		if($this->session->userdata('LoggedInCustomer')){
 		$this->load->view('pages/template/header',$this->data);
 		// $this->load->view('pages/template/slider');
 		$this->load->view('pages/checkout');
 		$this->load->view('pages/template/footer');
+		}else{
+			redirect(base_url().'gio-hang');
+		}
 	}
 
 	public function add_to_cart()
@@ -114,9 +118,130 @@ class IndexController extends CI_Controller {
 	{
 
 		$this->load->view('pages/template/header');
-		$this->load->view('pages/template/slider');
+		// $this->load->view('pages/template/slider');
 		$this->load->view('pages/login');
 		$this->load->view('pages/template/footer');
 	}
 	
+	public function login_customer()
+	{
+		$this->form_validation->set_rules('email', 'Email', 'trim|required',['required' => 'You must provide a %s.']);
+		$this->form_validation->set_rules('password', 'Password', 'trim|required',['required' => 'You must provide a %s.']);
+		if ($this->form_validation->run() == TRUE)
+		{
+			$email = $this->input->post('email');
+			$password = md5($this->input->post('password'));
+			$this->load->model('LoginModel');
+			$result = $this->LoginModel->checkLoginCustomer($email, $password);
+			if(count($result) > 0)
+			{
+				$session_array = array(
+					'id' => $result[0]->id,
+					'username' => $result[0]->name,
+					'email' => $result[0]->email,
+				);
+				$this->session->set_userdata('LoggedInCustomer', $session_array);
+				redirect(base_url('/checkout'));
+			}
+			else
+			{
+				$this->session->set_flashdata('success', 'Login failed');
+				redirect(base_url('/dang-nhap'));
+			}
+		}
+		else
+		{
+			$this->login();
+		}
+	}
+
+	public function dang_ky()
+	{
+		$this->form_validation->set_rules('email', 'Email', 'trim|required',['required' => 'You must provide a %s.']);
+		$this->form_validation->set_rules('password', 'Password', 'trim|required',['required' => 'You must provide a %s.']);
+		$this->form_validation->set_rules('phone', 'Phone', 'trim|required',['required' => 'You must provide a %s.']);
+		$this->form_validation->set_rules('name', 'Name', 'trim|required',['required' => 'You must provide a %s.']);
+		$this->form_validation->set_rules('address', 'Address', 'trim|required',['required' => 'You must provide a %s.']);
+		
+		if ($this->form_validation->run() == TRUE)
+		{
+			$email = $this->input->post('email');
+			$name = $this->input->post('name');
+			$phone = $this->input->post('phone');
+			$address = $this->input->post('address');
+			$password = md5($this->input->post('password'));
+			$data = array(
+				'name' => $name,
+				'email' => $email,
+				'phone' => $phone,
+				'address' => $address,
+				'password' => $password,
+
+			);
+			$this->load->model('LoginModel');
+			$result = $this->LoginModel->NewCustomer($data);
+			if($result)
+			{
+				$session_array = array(
+					'username' => $name,
+					'email' => $email,
+				);
+				$this->session->set_userdata('LoggedInCustomer', $session_array);
+				redirect(base_url('/checkout'));
+			}
+			else
+			{
+				$this->session->set_flashdata('success', 'Login failed');
+				redirect(base_url('/dang-nhap'));
+			}
+		}
+		else
+		{
+			$this->login();
+		}
+	}
+
+	public function confirm_checkout(){
+		$this->form_validation->set_rules('email', 'Email', 'trim|required',['required' => 'You must provide a %s.']);
+		$this->form_validation->set_rules('phone', 'Phone', 'trim|required',['required' => 'You must provide a %s.']);
+		$this->form_validation->set_rules('name', 'Name', 'trim|required',['required' => 'You must provide a %s.']);
+		$this->form_validation->set_rules('address', 'Address', 'trim|required',['required' => 'You must provide a %s.']);
+		if ($this->form_validation->run() == TRUE)
+		{
+			$email = $this->input->post('email');
+			$name = $this->input->post('name');
+			$phone = $this->input->post('phone');
+			$address = $this->input->post('address');
+			$shipping_method= $this->input->post('shipping_method');	
+			$data = array(
+				'name' => $name,
+				'email' => $email,
+				'phone' => $phone,
+				'address' => $address,
+				'method' => $shipping_method,
+
+			);
+			$this->load->model('LoginModel');
+			$result = $this->LoginModel->NewShipping($data);
+			if($result)
+			{
+				$this->session->set_flashdata('success', 'Xác nhận đơn hàng thành công');
+				redirect(base_url('/checkout'));
+		
+			}else{
+				$this->session->set_flashdata('error', 'Xác nhận đơn hàng thất bại');
+				redirect(base_url('/checkout'));
+			}
+
+		}else{
+			$this->checkout();
+		}
+
+	}
+
+	public function dang_xuat(){
+		$this->session->unset_userdata('LoggedInCustomer');
+		$this->session->set_flashdata('error', 'Logout Successfully');
+		redirect(base_url('/dang-nhap'));
+	}
 }

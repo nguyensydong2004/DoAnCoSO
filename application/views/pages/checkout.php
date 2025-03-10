@@ -72,21 +72,37 @@
 		<div class="container">
 			<div class="row">
                     <div class="col-sm-10 col-sm-offset-1">
+                        <?php
+                        if($this->session->flashdata('success'))
+                        {  
+                            ?>
+                            <div class="alert alert-success"><?php echo $this->session->flashdata('success') ?></div>
+                        <?php 
+                        }else if($this->session->flashdata('error')){
+                            ?>
+                            <div class="alert alert-danger"><?php echo $this->session->flashdata('error') ?></div>
+                            <?php
+                        }
+                        ?>
                         <div class="login-form"><!--login form-->
                             <h2>Điền thông tin thanh toán</h2>
-                            <form onsubmit="return confirm('Xác nhận đặt hàng')" method="POST" action="#">
+                            <form onsubmit="return confirm('Xác nhận đặt hàng')" method="POST" action="<?php echo base_url('confirm-checkout')?>">
                                 <lable>Name</lable>
                                 <input type="text" name="name" placeholder="Name" />
+                                <?php echo '<span class="text text-danger">'.form_error('name').'</span>' ?>
                                 <lable>Address</lable>
                                 <input type="text" name="address" placeholder="Address" />
+                                <?php echo '<span class="text text-danger">'.form_error('address').'</span>' ?>
                                 <lable>Phone</lable>
                                 <input type="text" name="phone" placeholder="Phone" />
+                                <?php echo '<span class="text text-danger">'.form_error('phone').'</span>' ?>
                                 <lable>Email</lable>
                                 <input type="text" name="email" placeholder="Email" />
+                                <?php echo '<span class="text text-danger">'.form_error('email').'</span>' ?>
                                 <lable>Hình thức thanh toán</lable>
-                                <select name="Hinh thuc thanh toan">
-                                    <option>COD</option>
-                                    <option>VNPAY</option>
+                                <select name="shipping_method">
+                                    <option value="code">COD</option>
+                                    <option value="vnpay">VNPAY</option>
                                     <option></option>
                                 </select>
                                 <button type="submit" class="btn btn-default">Xác nhận thanh toán</button>
