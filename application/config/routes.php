@@ -19,6 +19,7 @@ $route['dang-nhap']['GET'] = 'IndexController/login';
 $route['checkout']['GET'] = 'IndexController/checkout';
 $route['confirm-checkout']['POST'] = 'IndexController/confirm_checkout';
 $route['dang-xuat']['GET'] = 'IndexController/dang_xuat';
+$route['thanks']['GET'] = 'IndexController/thanks';
 
 
 
@@ -57,7 +58,9 @@ $route['product/edit/(:any)']['GET'] = 'ProductController/edit/$1';
 $route['product/update/(:any)']['POST'] = 'ProductController/update/$1';
 $route['product/store']['POST'] = 'ProductController/store';
 
-//cart
+//Order
+$route['order/list']['GET'] = 'OrderController/index';
+
 
 
 

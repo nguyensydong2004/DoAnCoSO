@@ -14,10 +14,20 @@ class LoginModel extends CI_Model {
 
     public function NewCustomer($data){
         return $this->db->insert('customers',$data  );
+       
     }
 
     public function NewShipping($data){
-        return $this->db->insert('shipping',$data  );
+        $this->db->insert('shipping',$data );
+        return $ship_id = $this->db->insert_id();
+    }
+
+    public function insert_order($data_order){
+        return $this->db->insert('orders',$data_order);
+    }
+
+    public function insert_order_details($data_order_details){
+        return $this->db->insert('order_details',$data_order_details);
     }
 }
    

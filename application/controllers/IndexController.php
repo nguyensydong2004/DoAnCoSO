@@ -59,7 +59,7 @@ class IndexController extends CI_Controller {
 
 	public function checkout()
 	{
-		if($this->session->userdata('LoggedInCustomer')){
+		if($this->session->userdata('LoggedInCustomer') && $this->cart->contents()){
 		$this->load->view('pages/template/header',$this->data);
 		// $this->load->view('pages/template/slider');
 		$this->load->view('pages/checkout');
@@ -222,11 +222,29 @@ class IndexController extends CI_Controller {
 
 			);
 			$this->load->model('LoginModel');
+			
+
 			$result = $this->LoginModel->NewShipping($data);
 			if($result)
 			{
+				$order_code = rand(00,9999);
+				$data_order = array(
+					'order_code' => $order_code,
+					'ship_id' => $result,
+					'status' => 1,
+				);
+				$insert_order = $this->LoginModel->insert_order($data_order);
+				foreach($this->cart->contents() as $items){
+					$data_order_details = array(
+						'order_code' => $order_code,
+						'product_id' => $items['id'],
+						'quantity' => $items['qty'],
+					);
+					$insert_order_details = $this->LoginModel->insert_order_details($data_order_details);
+				}
 				$this->session->set_flashdata('success', 'Xác nhận đơn hàng thành công');
-				redirect(base_url('/checkout'));
+				$this->cart->destroy();
+				redirect(base_url('/thanks'));
 		
 			}else{
 				$this->session->set_flashdata('error', 'Xác nhận đơn hàng thất bại');
@@ -237,6 +255,13 @@ class IndexController extends CI_Controller {
 			$this->checkout();
 		}
 
+	}
+
+	public function thanks()
+	{	
+		$this->load->view('pages/template/header',$this->data);
+		$this->load->view('pages/thanks');
+		$this->load->view('pages/template/footer');
 	}
 
 	public function dang_xuat(){
