@@ -15,7 +15,8 @@ $route['add-to-cart']['POST'] = 'IndexController/add_to_cart';
 $route['delete-all-cart']['GET'] = 'IndexController/delete_all_cart';
 $route['delete-item/(:any)']['GET'] = 'IndexController/delete_item/$1';
 $route['update-cart-item']['POST'] = 'IndexController/update_cart_item';
-$route['dang-nhap']['POST'] = 'IndexController/login';
+$route['dang-nhap']['GET'] = 'IndexController/login';
+$route['checkout']['GET'] = 'IndexController/checkout';
 
 
 //login

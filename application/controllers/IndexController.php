@@ -51,9 +51,17 @@ class IndexController extends CI_Controller {
 	{
 
 
-		$this->load->view('pages/template/header');
+		$this->load->view('pages/template/header',$this->data);
 		// $this->load->view('pages/template/slider');
 		$this->load->view('pages/cart');
+		$this->load->view('pages/template/footer');
+	}
+
+	public function checkout()
+	{
+		$this->load->view('pages/template/header',$this->data);
+		// $this->load->view('pages/template/slider');
+		$this->load->view('pages/checkout');
 		$this->load->view('pages/template/footer');
 	}
 
@@ -94,7 +102,8 @@ class IndexController extends CI_Controller {
 			}
 		}
 		$this->cart->update($cart);
-		redirect(base_url().'gio-hang','refresh');
+		// redirect(base_url().'gio-hang','refresh');
+		redirect($_SERVER['HTTP_REFERER']);
 	}
 
 	public function delete_item($rowid){

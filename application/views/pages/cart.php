@@ -44,7 +44,7 @@
                                 <div class="cart_quantity_button">
                                     <input type="hidden" value="<?php echo $items['rowid'] ?>" name="rowid">
                                     <input class="cart_quantity_input" type="number" min="1" name="quantity" value="<?php echo $items['qty'] ?>" autocomplete="off" size="2">
-                                    <input type="submit" name="capnhap" class="btn btn-warning" value="Update"></input>
+                                    <input type="submit" name="capnhap" class="btn btn-warning" value="Cập nhập"></input>
                                 </div>
                             </form> 
                         </td>
@@ -60,7 +60,9 @@
                     ?>
                     <tr>                          
                         <td colspan="4">Total<p class="cart_total_price"><?php echo number_format($total,0,',','.') ?>VND</p><td>
-                        <td><a href="<?php echo base_url('delete-all-cart') ?>" class="btn btn-danger">Delete all</a><td>
+                        <td><a href="<?php echo base_url('delete-all-cart') ?>" class="btn btn-danger">Xoá tất cả</a><td>
+                        <td><a href="<?php echo base_url('checkout') ?>" class="btn btn-success">Đặt Hàng</a><td>
+
                     </tr>
                 </tbody>
             </table>
