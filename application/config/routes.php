@@ -7,9 +7,9 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 //index
-$route['danh-muc/(:any)']['GET'] = 'IndexController/category/$1';
-$route['thuong-hieu/(:any)']['GET'] = 'IndexController/brand/$1';
-$route['san-pham/(:any)']['GET'] = 'IndexController/product/$1';
+$route['danh-muc/(:any)/(:any)']['GET'] = 'IndexController/category/$1/$2';
+$route['thuong-hieu/(:any)/(:any)']['GET'] = 'IndexController/brand/$1/$2';
+$route['san-pham/(:any)/(:any)']['GET'] = 'IndexController/product/$1/$2';
 $route['gio-hang']['GET'] = 'IndexController/cart';
 $route['add-to-cart']['POST'] = 'IndexController/add_to_cart';
 $route['delete-all-cart']['GET'] = 'IndexController/delete_all_cart';
@@ -60,7 +60,9 @@ $route['product/store']['POST'] = 'ProductController/store';
 
 //Order
 $route['order/list']['GET'] = 'OrderController/index';
-
+$route['order/process']['POST'] = 'OrderController/process';
+$route['order/view/(:any)']['GET'] = 'OrderController/view/$1';
+$route['order/delete/(:any)']['GET'] = 'OrderController/delete_order/$1';
 
 
 

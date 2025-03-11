@@ -56,17 +56,22 @@
                     ?>
                     <div class="col-sm-4">
                         <div class="product-image-wrapper">
+                        <form action="<?php echo base_url('add-to-cart') ?>" method="POST">
                             <div class="single-products">
                                     <div class="productinfo text-center">
+                                        <input type="hidden" value="<?php echo $pro->id ?>" name="product_id">
+                                        <input type="hidden" value="1" name="quantity">
                                         <img src="<?php echo base_url('uploads/product/'.$pro->image) ?>" alt="<?php echo $pro->title ?>" />
                                         <h2><?php echo number_format($pro->price,0,',','.') ?>VND</h2>
                                         <p><?php echo $pro->title ?></p>
-                                        <a href="<?php echo base_url('san-pham/'.$pro->id) ?>" class="btn btn-default add-to-cart"><i class="fa fa-eye"></i>Details</a>
-
-
-                                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        <a href="<?php echo base_url('san-pham/'.$pro->id.'/'.$pro->slug) ?>" class="btn btn-default add-to-cart"><i class="fa fa-eye"></i>Details</a>
+                                        <button type="submit" class="btn btn-fefault cart">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            Add to cart
+                                        </button>
                                     </div>                                  
                             </div>
+                    </form>
                             <div class="choose">
                                 <!-- <ul class="nav nav-pills nav-justified">
                                     <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>

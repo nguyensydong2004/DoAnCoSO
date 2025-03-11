@@ -24,7 +24,7 @@ class IndexController extends CI_Controller {
 	{
 		$this->data['category_product'] = $this->IndexModel->getCategoryProduct($id);
 		$this->data['title'] = $this->IndexModel->getCategoryTitle($id);
-
+		$this->config->config["pageTitle"] = $this->data['title'];
 		$this->load->view('pages/template/header',$this->data);
 		// $this->load->view('pages/template/slider');
 		$this->load->view('pages/category',$this->data);
@@ -34,6 +34,7 @@ class IndexController extends CI_Controller {
 	{
 		$this->data['brand_product'] = $this->IndexModel->getBrandProduct($id);
 		$this->data['title'] = $this->IndexModel->getBrandTitle($id);
+		$this->config->config["pageTitle"] = $this->data['title'];
 		$this->load->view('pages/template/header',$this->data);
 		// $this->load->view('pages/template/slider');
 		$this->load->view('pages/brand',$this->data);
@@ -42,6 +43,8 @@ class IndexController extends CI_Controller {
 	public function product($id)
 	{
 		$this->data['product_details'] = $this->IndexModel->getProductDetails($id);
+		$this->data['title'] = $this->IndexModel->getProductTitle($id);
+		$this->config->config["pageTitle"] = $this->data['title'];
 		$this->load->view('pages/template/header',$this->data);
 		// $this->load->view('pages/template/slider');
 		$this->load->view('pages/product_details',$this->data);
@@ -50,7 +53,7 @@ class IndexController extends CI_Controller {
 	public function cart()
 	{
 
-
+		$this->config->config["pageTitle"] = 'Giỏ hàng của bạn';
 		$this->load->view('pages/template/header',$this->data);
 		// $this->load->view('pages/template/slider');
 		$this->load->view('pages/cart');
@@ -61,6 +64,7 @@ class IndexController extends CI_Controller {
 	{
 		if($this->session->userdata('LoggedInCustomer') && $this->cart->contents()){
 		$this->load->view('pages/template/header',$this->data);
+		$this->config->config["pageTitle"] = 'Thanh toán đơn hàng';
 		// $this->load->view('pages/template/slider');
 		$this->load->view('pages/checkout');
 		$this->load->view('pages/template/footer');
@@ -116,7 +120,7 @@ class IndexController extends CI_Controller {
 	}
 	public function login()
 	{
-
+		$this->config->config["pageTitle"] = 'Đăng nhập | Đăng kí';
 		$this->load->view('pages/template/header');
 		// $this->load->view('pages/template/slider');
 		$this->load->view('pages/login');
@@ -259,6 +263,7 @@ class IndexController extends CI_Controller {
 
 	public function thanks()
 	{	
+		$this->config->config["pageTitle"] = 'Cảm ơn đã đặt hàng';
 		$this->load->view('pages/template/header',$this->data);
 		$this->load->view('pages/thanks');
 		$this->load->view('pages/template/footer');
