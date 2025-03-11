@@ -15,11 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link href="<?php echo base_url('frontend/css/price-range.css') ?>" rel="stylesheet">
     <link href="<?php echo base_url('frontend/css/animate.css') ?>" rel="stylesheet">
 	<link href="<?php echo base_url('frontend/css/main.css') ?>" rel="stylesheet">
-	<link href="<?php echo base_url('frontend/css/responsive.css') ?>" rel="stylesheet">
-    <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
-    <![endif]-->       
+	<link href="<?php echo base_url('frontend/css/responsive.css') ?>" rel="stylesheet">     
     <link rel="shortcut icon" href="images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
@@ -35,8 +31,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
-								<li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
+								<li><a href="#"><i class="fa fa-phone"></i> +84 343 789 045</a></li>
+								<li><a href="#"><i class="fa fa-envelope"></i> 22010021@st.phenikaa-uni.edu.vn</a></li>
 							</ul>
 						</div>
 					</div>
@@ -94,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="header-bottom"><!--header-bottom-->
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-9">
+					<div class="col-sm-7">
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 								<span class="sr-only">Toggle navigation</span>
@@ -128,9 +124,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-3">
+					<div class="col-sm-5">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+							<form method="GET" action="<?php echo base_url('tim-kiem') ?>">
+							<input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm..."/>
+							<input type="submit" style="margin:0;color:#fff" class="btn btn-primary"/>
+							</form>
 						</div>
 					</div>
 				</div>

@@ -1,7 +1,7 @@
 <section>
     <div class="container">
         <div class="row">
-            <div class="col-sm-3">
+        <div class="col-sm-3">
                 <div class="left-sidebar">
                     <h2>Category</h2>
                     <div class="panel-group category-products" id="accordian"><!--category-productsr-->  
@@ -10,7 +10,7 @@
                             ?>
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h4 class="panel-title"><a href="<?php echo base_url('danh-muc/'.$cate->id) ?>"><?php echo $cate->title ?></a></h4>
+                                    <h4 class="panel-title"><a href="<?php echo base_url('danh-muc/'.$cate->id.'/'.$cate->slug) ?>"><?php echo $cate->title ?></a></h4>
                                 </div>
                             </div>
                         <?php
@@ -26,7 +26,7 @@
                                     foreach ($brand as $key => $bra) {
                                     ?>
 
-                                        <li><a href="<?php echo base_url('thuong-hieu/'.$bra->id) ?>"></span><?php echo $bra->title ?></a></li>
+                                        <li><a href="<?php echo base_url('thuong-hieu/'.$bra->id.'/'.$bra->slug) ?>"></span><?php echo $bra->title ?></a></li>
                                 <?php
                                 }
                                 ?>
@@ -48,11 +48,12 @@
                 
                 </div>
             </div>
+            
             <div class="col-sm-9 padding-right">
                 <div class="features_items"><!--features_items-->
-                    <h2 class="title text-center">Features Items</h2>
+                    <h2 class="title text-center">Từ khoá: <?php echo $title ?></h2>
                     <?php
-                    foreach ($allproduct_pagination as $key => $pro) {
+                    foreach ($product as $key => $pro) {
                     ?>
                     <div class="col-sm-4">
                         <div class="product-image-wrapper">
@@ -71,7 +72,7 @@
                                         </button>
                                     </div>                                  
                             </div>
-                    </form>
+                            </form>
                             <div class="choose">
                                 <!-- <ul class="nav nav-pills nav-justified">
                                     <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
@@ -83,8 +84,7 @@
                     <?php
                     }
                     ?>                
-                </div><!--features_items-->
-                <?php echo $links ?>             
+                </div><!--features_items-->         
             </div>
         </div>
     </div>

@@ -13,6 +13,18 @@ class IndexModel extends CI_Model {
         $query = $this->db->get_where('products',['status'=>1]);
         return $query->result();
     }
+
+    public function countAllProduct(){
+        return $this->db->count_all('products');
+    }
+
+    public function getIndexPagination($limit, $start){
+        $this->db->limit($limit, $start);
+        $query = $this->db->get_where('products',['status'=>1]);
+        return $query->result();
+
+    }
+
     public function getCategoryProduct($id){
         $query = $this->db->select('categories.title as tendanhmuc,products.*, brands.title as tenthuonghieu')
         ->from('categories')
@@ -69,6 +81,16 @@ class IndexModel extends CI_Model {
         $query = $this->db->get();
         $result = $query->row();
         return $title = $result->title;
+    }
+
+    public function getProductByKeyword($keyword){
+        $query = $this->db->select('categories.title as tendanhmuc,products.*, brands.title as tenthuonghieu')
+        ->from('categories')
+        ->join('products','products.category_id =categories.id')
+        ->join('brands','products.brand_id =brands.id')
+        ->like('products.title',$keyword)
+        ->get();
+        return $query->result();
     }
     
 }

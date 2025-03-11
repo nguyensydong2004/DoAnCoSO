@@ -123,7 +123,7 @@ class ProductController extends CI_Controller {
                 $this->load->view('product/edit'.$id,$error);
                 $this->load->view('admin_template/footer');
             }else{
-                $category_filename = $this->upload->data('file_name');
+                $product_filename = $this->upload->data('file_name');
                 $data = [
                     'title' => $this->input->post('title'),
                     'price' => $this->input->post('price'),
@@ -164,8 +164,4 @@ class ProductController extends CI_Controller {
         $this->session->set_flashdata('success', 'Deleted Product successfully');
         redirect(base_url('product/list'));
     }   
-
-
-   
-	
 }

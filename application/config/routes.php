@@ -20,7 +20,11 @@ $route['checkout']['GET'] = 'IndexController/checkout';
 $route['confirm-checkout']['POST'] = 'IndexController/confirm_checkout';
 $route['dang-xuat']['GET'] = 'IndexController/dang_xuat';
 $route['thanks']['GET'] = 'IndexController/thanks';
+$route['tim-kiem']['GET'] = 'IndexController/tim_kiem';
 
+//pagination
+$route['pagination/(:num)'] = 'IndexController/index/$1';
+$route['pagination/index'] = 'IndexController/index/';
 
 
 //login
