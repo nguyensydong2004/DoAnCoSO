@@ -28,6 +28,12 @@ class IndexModel extends CI_Model {
         $this->db->from('products');
         return $this->db->count_all_results();
     }
+
+    public function countAllProductByKeyword($keyword){
+        $this->db->like('products.title',$keyword);
+        $this->db->from('products');
+        return $this->db->count_all_results();
+    }
     
 
     public function getIndexPagination($limit, $start){
@@ -139,6 +145,17 @@ class IndexModel extends CI_Model {
     }
 
     public function getProductByKeyword($keyword){
+        $query = $this->db->select('categories.title as tendanhmuc,products.*, brands.title as tenthuonghieu')
+        ->from('categories')
+        ->join('products','products.category_id =categories.id')
+        ->join('brands','products.brand_id =brands.id')
+        ->like('products.title',$keyword)
+        ->get();
+        return $query->result();
+    }
+
+    public function getSearchPagination($keyword,$limit, $start){
+        $this->db->limit($limit, $start);
         $query = $this->db->select('categories.title as tendanhmuc,products.*, brands.title as tenthuonghieu')
         ->from('categories')
         ->join('products','products.category_id =categories.id')

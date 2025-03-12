@@ -29,6 +29,8 @@ $route['phan-trang'] = 'IndexController/index/';
 $route['danh-muc/(:any)/(:any)/(:any)']['GET'] = 'IndexController/category/$1/$2';
 $route['thuong-hieu/(:any)/(:any)/(:any)']['GET'] = 'IndexController/brand/$1/$2';
 
+$route['tim-kiem/(:num)']['GET'] = 'IndexController/tim_kiem/$1';
+
 //login
 $route['login']['GET'] = 'LoginController/index';
 $route['login-user']['POST'] = 'LoginController/login';
