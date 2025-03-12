@@ -7,7 +7,7 @@ class LoginModel extends CI_Model {
     }
 
     public function checkLoginCustomer($email, $password){
-        $query = $this->db->where('email', $email)->where('password', $password)->get('customers');
+        $query = $this->db->where('email', $email)->where('password', $password)->where('status',1)->get('customers');
         return $query->result();
       
     }

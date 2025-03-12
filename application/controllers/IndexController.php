@@ -16,7 +16,8 @@ class IndexController extends CI_Controller {
 
 	public function index()
 	{	
-		echo Carbon\Carbon::now();
+		echo Carbon\Carbon::now('Asia/Ho_Chi_Minh');
+		echo Carbon\Carbon::tomorrow('Asia/Ho_Chi_Minh');
 		//custom config link
 		$config = array();
         $config["base_url"] = base_url() .'/phan-trang'; 
@@ -272,34 +273,72 @@ class IndexController extends CI_Controller {
 			$phone = $this->input->post('phone');
 			$address = $this->input->post('address');
 			$password = md5($this->input->post('password'));
+			$token = rand(0000,9999);
+			$date_created = Carbon\Carbon::now('Asia/Ho_Chi_Minh');
 			$data = array(
 				'name' => $name,
 				'email' => $email,
 				'phone' => $phone,
 				'address' => $address,
 				'password' => $password,
+				'token' => $token,
+				'date_created' => $date_created,
 
 			);
 			$this->load->model('LoginModel');
 			$result = $this->LoginModel->NewCustomer($data);
 			if($result)
 			{
-				$session_array = array(
-					'username' => $name,
-					'email' => $email,
-				);
-				$this->session->set_userdata('LoggedInCustomer', $session_array);
+				// $session_array = array(
+				// 	'username' => $name,
+				// 	'email' => $email,
+				// );
+				// $this->session->set_userdata('LoggedInCustomer', $session_array);
+				// $this->session->set_flashdata('error', 'Login successfull');
+				$fullurl = base_url().'xac-thuc-dang-ky/?token='.$token.'&email='.$email;
+				$title = "Đăng kí tài khoản Web bán hàng thành công";
+				$message = "Click vào đường link để kích hoạt tài khoản:".$fullurl;
+				$to_email = $email;
+				$this->send_mail($to_email,$title,$message);
 				redirect(base_url('/checkout'));
 			}
 			else
 			{
-				$this->session->set_flashdata('success', 'Login failed');
+				$this->session->set_flashdata('error', 'Login failed');
 				redirect(base_url('/dang-nhap'));
 			}
 		}
 		else
 		{
 			$this->login();
+		}
+	}
+
+	public function xac_thuc_dang_ky(){
+		if(isset($_GET['email']) && $_GET['token']){
+			$token = $_GET['token'];
+			$email = $_GET['email'];
+		}
+		$data['get_customer'] =$this->IndexModel->getCustomersToken($email);
+		$now = Carbon\Carbon::now('Asia/Ho_Chi_Minh')->addMinutes(5);
+		$token_rand = rand(0000,9999);
+		foreach($data['get_customer'] as $key =>$val){
+			if($token!=$val->token){
+				$this->session->set_flashdata('success', 'Đường linh kích hoạt thất bại');
+				redirect(base_url('/dang-nhap'));
+			}
+			$data_customer = [
+				'status' => 1,
+				'token' => $token
+			];
+			if($val->data_created < $now){
+				$active_customer = $this->IndexModel->activeCustomersToken($email,$data_customer);
+				$this->session->set_flashdata('success', 'Kích hoạt user thành công, mời bạn đăng nhập');
+				redirect(base_url('/dang-nhap'));
+			}else{
+				$this->session->set_flashdata('success', 'Kích hoạt user thất bại, vui lòng thử lại');
+				redirect(base_url('/dang-nhap'));
+			}
 		}
 	}
 

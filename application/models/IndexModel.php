@@ -164,6 +164,15 @@ class IndexModel extends CI_Model {
         ->get();
         return $query->result();
     }
+
+    public function getCustomersToken($email){
+        $query = $this->db->get_where('customers',['email' => $email]);
+        return $query->result();
+    }
+
+    public function activeCustomersToken($email,$data_customer){
+        return $this->db->update('customers',$data_customer,['email'=>$email]);
+    }
     
 }
    
