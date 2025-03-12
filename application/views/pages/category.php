@@ -53,7 +53,7 @@
                 <div class="features_items"><!--features_items-->
                     <h2 class="title text-center"><?php echo $title ?></h2>
                     <?php
-                    foreach ($category_product as $key => $pro) {
+                    foreach ($allproductbycate_pagination as $key => $pro) {
                     ?>
                     <div class="col-sm-4">
                         <div class="product-image-wrapper">
@@ -84,7 +84,8 @@
                     <?php
                     }
                     ?>                
-                </div><!--features_items-->           
+                </div><!--features_items-->         
+                <?php echo $links ?>  
             </div>
         </div>
     </div>

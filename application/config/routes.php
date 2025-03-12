@@ -23,9 +23,11 @@ $route['thanks']['GET'] = 'IndexController/thanks';
 $route['tim-kiem']['GET'] = 'IndexController/tim_kiem';
 
 //pagination
-$route['pagination/(:num)'] = 'IndexController/index/$1';
-$route['pagination/index'] = 'IndexController/index/';
+$route['phan-trang/(:num)'] = 'IndexController/index/$1';
+$route['phan-trang'] = 'IndexController/index/';
 
+$route['danh-muc/(:any)/(:any)/(:any)']['GET'] = 'IndexController/category/$1/$2';
+$route['thuong-hieu/(:any)/(:any)/(:any)']['GET'] = 'IndexController/brand/$1/$2';
 
 //login
 $route['login']['GET'] = 'LoginController/index';

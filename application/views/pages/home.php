@@ -1,7 +1,7 @@
 <section>
     <div class="container">
         <div class="row">
-            <div class="col-sm-3">
+        <div class="col-sm-3">
                 <div class="left-sidebar">
                     <h2>Category</h2>
                     <div class="panel-group category-products" id="accordian"><!--category-productsr-->  
@@ -10,7 +10,7 @@
                             ?>
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h4 class="panel-title"><a href="<?php echo base_url('danh-muc/'.$cate->id) ?>"><?php echo $cate->title ?></a></h4>
+                                    <h4 class="panel-title"><a href="<?php echo base_url('danh-muc/'.$cate->id.'/'.$cate->slug) ?>"><?php echo $cate->title ?></a></h4>
                                 </div>
                             </div>
                         <?php
@@ -26,7 +26,7 @@
                                     foreach ($brand as $key => $bra) {
                                     ?>
 
-                                        <li><a href="<?php echo base_url('thuong-hieu/'.$bra->id) ?>"></span><?php echo $bra->title ?></a></li>
+                                        <li><a href="<?php echo base_url('thuong-hieu/'.$bra->id.'/'.$bra->slug) ?>"></span><?php echo $bra->title ?></a></li>
                                 <?php
                                 }
                                 ?>

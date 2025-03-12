@@ -17,6 +17,18 @@ class IndexModel extends CI_Model {
     public function countAllProduct(){
         return $this->db->count_all('products');
     }
+    public function countAllProductByCate($id){
+        $this->db->where('category_id',$id);
+        $this->db->from('products');
+        return $this->db->count_all_results();
+    }
+
+    public function countAllProductByBra($id){
+        $this->db->where('brand_id',$id);
+        $this->db->from('products');
+        return $this->db->count_all_results();
+    }
+    
 
     public function getIndexPagination($limit, $start){
         $this->db->limit($limit, $start);
@@ -34,7 +46,29 @@ class IndexModel extends CI_Model {
         ->get();
         return $query->result();
     }
+
+    public function getCatePagination($id,$limit, $start){
+        $this->db->limit($limit, $start);
+        $query = $this->db->select('categories.title as tendanhmuc,products.*, brands.title as tenthuonghieu')
+        ->from('categories')
+        ->join('products','products.category_id =categories.id')
+        ->join('brands','products.brand_id =brands.id')
+        ->where('products.category_id',$id)
+        ->get();
+        return $query->result();
+    }
     public function getBrandProduct($id){
+        $query = $this->db->select('categories.title as tendanhmuc,products.*, brands.title as tenthuonghieu')
+        ->from('categories')
+        ->join('products','products.category_id =categories.id')
+        ->join('brands','products.brand_id =brands.id')
+        ->where('products.brand_id',$id)
+        ->get();
+        return $query->result();
+    }
+
+    public function getBraPagination($id,$limit, $start){
+        $this->db->limit($limit, $start);
         $query = $this->db->select('categories.title as tendanhmuc,products.*, brands.title as tenthuonghieu')
         ->from('categories')
         ->join('products','products.category_id =categories.id')
@@ -64,6 +98,17 @@ class IndexModel extends CI_Model {
         return $title = $result->title;
     }
 
+    public function getCategorySlug($id){
+        $this->db->select('categories.*');
+        $this->db->from('categories');
+        $this->db->limit(1);
+        $this->db->where('categories.id',$id);
+        $query = $this->db->get();
+        $result = $query->row();
+        return $title = $result->slug;
+    }
+
+
     public function getBrandTitle($id){
         $this->db->select('brands.*');
         $this->db->from('brands');
@@ -72,6 +117,16 @@ class IndexModel extends CI_Model {
         $query = $this->db->get();
         $result = $query->row();
         return $title = $result->title;
+    }
+
+    public function getBrandSlug($id){
+        $this->db->select('brands.*');
+        $this->db->from('brands');
+        $this->db->limit(1);
+        $this->db->where('brands.id',$id);
+        $query = $this->db->get();
+        $result = $query->row();
+        return $title = $result->slug;
     }
     public function getProductTitle($id){
         $this->db->select('products.*');
