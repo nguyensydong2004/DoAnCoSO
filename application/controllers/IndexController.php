@@ -6,8 +6,9 @@ class IndexController extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('IndexModel');
+		$this->load->model('IndexModel');	
 		$this->load->library('cart');
+		$this->load->library('email');
 		$this->data['category'] = $this->IndexModel->getCategoryHome();
 		$this->data['brand'] = $this->IndexModel->getBrandHome();
 		$this->load->library("pagination");
@@ -15,6 +16,7 @@ class IndexController extends CI_Controller {
 
 	public function index()
 	{	
+		echo Carbon\Carbon::now();
 		//custom config link
 		$config = array();
         $config["base_url"] = base_url() .'/phan-trang'; 
@@ -207,10 +209,19 @@ class IndexController extends CI_Controller {
 	}
 	public function login()
 	{
-		$this->config->config["pageTitle"] = 'Đăng nhập | Đăng kí';
+		$this->config->config["pageTitle"] = 'Đăng nhập';
 		$this->load->view('pages/template/header');
 		// $this->load->view('pages/template/slider');
 		$this->load->view('pages/login');
+		$this->load->view('pages/template/footer');
+	}
+
+	public function register()
+	{
+		$this->config->config["pageTitle"] = 'Đăng kí';
+		$this->load->view('pages/template/header');
+		// $this->load->view('pages/template/slider');
+		$this->load->view('pages/register');
 		$this->load->view('pages/template/footer');
 	}
 	
@@ -292,61 +303,6 @@ class IndexController extends CI_Controller {
 		}
 	}
 
-	public function confirm_checkout(){
-		$this->form_validation->set_rules('email', 'Email', 'trim|required',['required' => 'You must provide a %s.']);
-		$this->form_validation->set_rules('phone', 'Phone', 'trim|required',['required' => 'You must provide a %s.']);
-		$this->form_validation->set_rules('name', 'Name', 'trim|required',['required' => 'You must provide a %s.']);
-		$this->form_validation->set_rules('address', 'Address', 'trim|required',['required' => 'You must provide a %s.']);
-		if ($this->form_validation->run() == TRUE)
-		{
-			$email = $this->input->post('email');
-			$name = $this->input->post('name');
-			$phone = $this->input->post('phone');
-			$address = $this->input->post('address');
-			$shipping_method= $this->input->post('shipping_method');	
-			$data = array(
-				'name' => $name,
-				'email' => $email,
-				'phone' => $phone,
-				'address' => $address,
-				'method' => $shipping_method,
-
-			);
-			$this->load->model('LoginModel');
-			
-
-			$result = $this->LoginModel->NewShipping($data);
-			if($result)
-			{
-				$order_code = rand(00,9999);
-				$data_order = array(
-					'order_code' => $order_code,
-					'ship_id' => $result,
-					'status' => 1,
-				);
-				$insert_order = $this->LoginModel->insert_order($data_order);
-				foreach($this->cart->contents() as $items){
-					$data_order_details = array(
-						'order_code' => $order_code,
-						'product_id' => $items['id'],
-						'quantity' => $items['qty'],
-					);
-					$insert_order_details = $this->LoginModel->insert_order_details($data_order_details);
-				}
-				$this->session->set_flashdata('success', 'Xác nhận đơn hàng thành công');
-				$this->cart->destroy();
-				redirect(base_url('/thanks'));
-		
-			}else{
-				$this->session->set_flashdata('error', 'Xác nhận đơn hàng thất bại');
-				redirect(base_url('/checkout'));
-			}
-
-		}else{
-			$this->checkout();
-		}
-
-	}
 
 	public function thanks()
 	{	
@@ -402,5 +358,83 @@ class IndexController extends CI_Controller {
 		// $this->load->view('pages/template/slider');
 		$this->load->view('pages/timkiem',$this->data);
 		$this->load->view('pages/template/footer');
+	}
+
+	public function send_mail($to_email,$title,$message){
+		$config= array();
+		$config['protocol'] ='smtp';
+		$config['smtp_host'] ='ssl://smtp.gmail.com';
+		$config['smtp_user'] ='nguyensydong2k4@gmail.com';
+		$config['smtp_pass'] ='atkvphdynlsnijhd';
+		$config['smtp_port'] =465;
+		$config['charset'] ='utf-8';
+		$this->email->initialize($config);
+		$this->email->set_newline("\r\n");
+		$this->email->from('nguyensydong2k4@gmail.com','Gửi mail thành công');
+		$this->email->to($to_email);
+		$this->email->subject($title);
+		$this->email->message($message);
+		$this->email->send();
+
+	}
+
+	public function confirm_checkout(){
+		$this->form_validation->set_rules('email', 'Email', 'trim|required',['required' => 'You must provide a %s.']);
+		$this->form_validation->set_rules('phone', 'Phone', 'trim|required',['required' => 'You must provide a %s.']);
+		$this->form_validation->set_rules('name', 'Name', 'trim|required',['required' => 'You must provide a %s.']);
+		$this->form_validation->set_rules('address', 'Address', 'trim|required',['required' => 'You must provide a %s.']);
+		if ($this->form_validation->run() == TRUE)
+		{
+			$email = $this->input->post('email');
+			$name = $this->input->post('name');
+			$phone = $this->input->post('phone');
+			$address = $this->input->post('address');
+			$shipping_method= $this->input->post('shipping_method');	
+			$data = array(
+				'name' => $name,
+				'email' => $email,
+				'phone' => $phone,
+				'address' => $address,
+				'method' => $shipping_method,
+
+			);
+			$this->load->model('LoginModel');
+			
+
+			$result = $this->LoginModel->NewShipping($data);
+			if($result)
+			{
+				$order_code = rand(00,9999);
+				$data_order = array(
+					'order_code' => $order_code,
+					'ship_id' => $result,
+					'status' => 1,
+				);
+				$insert_order = $this->LoginModel->insert_order($data_order);
+				foreach($this->cart->contents() as $items){
+					$data_order_details = array(
+						'order_code' => $order_code,
+						'product_id' => $items['id'],
+						'quantity' => $items['qty'],
+					);
+					$insert_order_details = $this->LoginModel->insert_order_details($data_order_details);
+				}
+				$this->session->set_flashdata('success', 'Xác nhận đơn hàng thành công');
+				$to_email = $email;
+				$title = 'Đặt hàng tại Web bán hàng thành công';
+				$message = 'Chúng tôi sẽ liên hệ trong thời gian sớm nhất';
+				$this->send_mail($to_email,$title,$message);
+				$this->cart->destroy();
+				redirect(base_url('/thanks'));
+		
+			}else{
+				$this->session->set_flashdata('error', 'Xác nhận đơn hàng thất bại');
+				redirect(base_url('/checkout'));
+			}
+
+		}else{
+			$this->checkout();
+		}
+
 	}
 }

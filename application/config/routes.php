@@ -16,6 +16,7 @@ $route['delete-all-cart']['GET'] = 'IndexController/delete_all_cart';
 $route['delete-item/(:any)']['GET'] = 'IndexController/delete_item/$1';
 $route['update-cart-item']['POST'] = 'IndexController/update_cart_item';
 $route['dang-nhap']['GET'] = 'IndexController/login';
+$route['register']['GET'] = 'IndexController/register';
 $route['checkout']['GET'] = 'IndexController/checkout';
 $route['confirm-checkout']['POST'] = 'IndexController/confirm_checkout';
 $route['dang-xuat']['GET'] = 'IndexController/dang_xuat';
@@ -30,6 +31,9 @@ $route['danh-muc/(:any)/(:any)/(:any)']['GET'] = 'IndexController/category/$1/$2
 $route['thuong-hieu/(:any)/(:any)/(:any)']['GET'] = 'IndexController/brand/$1/$2';
 
 $route['tim-kiem/(:num)']['GET'] = 'IndexController/tim_kiem/$1';
+
+//email
+$route['test-mail'] = 'IndexController/send_mail';
 
 //login
 $route['login']['GET'] = 'LoginController/index';

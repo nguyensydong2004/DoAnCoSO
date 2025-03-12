@@ -1,7 +1,13 @@
 <section>
+    <style>
+        button.btn.btn-fefault.cart{
+            margin-bottom:25px;
+        }
+    </style>
     <div class="container">
         <div class="row">
             <?php $this->load->view('pages/template/sidebar') ?>
+            <form action="<?php echo base_url('add-to-cart') ?>" method="POST">
             
             <div class="col-sm-9 padding-right">
                 <div class="features_items"><!--features_items-->
@@ -11,7 +17,6 @@
                     ?>
                     <div class="col-sm-4">
                         <div class="product-image-wrapper">
-                        <form action="<?php echo base_url('add-to-cart') ?>" method="POST">
                             <div class="single-products">
                                     <div class="productinfo text-center">
                                         <input type="hidden" value="<?php echo $pro->id ?>" name="product_id">
@@ -26,7 +31,7 @@
                                         </button>
                                     </div>                                  
                             </div>
-                    </form>
+                 
                             <div class="choose">
                                 <!-- <ul class="nav nav-pills nav-justified">
                                     <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
@@ -41,6 +46,7 @@
                 </div><!--features_items-->      
                 <?php echo $links ?>     
             </div>
+            </form>
         </div>
     </div>
 </section>
