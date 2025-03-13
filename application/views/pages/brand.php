@@ -3,6 +3,10 @@
         button.btn.btn-fefault.cart{
             margin-bottom:25px;
         }
+        .productinfo img {
+        width: 100%;
+        height: 150px;
+        }
     </style>
     <div class="container">
         <div class="row">
@@ -24,7 +28,7 @@
                                         <img src="<?php echo base_url('uploads/product/'.$pro->image) ?>" alt="<?php echo $pro->title ?>" />
                                         <h2><?php echo number_format($pro->price,0,',','.') ?>VND</h2>
                                         <p><?php echo $pro->title ?></p>
-                                        <a href="<?php echo base_url('san-pham/'.$pro->id.'/'.$pro->slug) ?>" class="btn btn-default add-to-cart"><i class="fa fa-eye"></i>Details</a>
+                                        <a href="<?php echo base_url('san-pham/'.$pro->id.'/'.$pro->slug) ?>"  class="btn btn-default add-to-cart"><i class="fa fa-eye"></i>Details</a>
                                         <button type="submit" class="btn btn-fefault cart">
                                             <i class="fa fa-shopping-cart"></i>
                                             Add to cart

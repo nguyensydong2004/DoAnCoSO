@@ -10,6 +10,7 @@ class IndexController extends CI_Controller {
 		$this->load->library('cart');
 		$this->load->library('email');
 		$this->data['category'] = $this->IndexModel->getCategoryHome();
+		$this->data['slider'] = $this->IndexModel->getSliderHome();
 		$this->data['brand'] = $this->IndexModel->getBrandHome();
 		$this->load->library("pagination");
 	}

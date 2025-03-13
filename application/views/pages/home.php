@@ -3,6 +3,10 @@
         button.btn.btn-fefault.cart{
             margin-bottom:25px;
         }
+        .productinfo img {
+        width: 100%;
+        height: 150px;
+        }
     </style>
     <div class="container">
         <div class="row">
