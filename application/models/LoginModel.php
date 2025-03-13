@@ -1,5 +1,9 @@
 <?php
 class LoginModel extends CI_Model {
+
+    public function RegisterAdmin($data){
+        return $this->db->insert('user',$data);   
+    }
     public function checkLogin($email, $password){
         $query = $this->db->where('email', $email)->where('password', $password)->get('user');
         return $query->result();
@@ -29,6 +33,7 @@ class LoginModel extends CI_Model {
     public function insert_order_details($data_order_details){
         return $this->db->insert('order_details',$data_order_details);
     }
+
 }
    
 

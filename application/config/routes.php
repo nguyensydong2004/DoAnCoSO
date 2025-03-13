@@ -45,6 +45,9 @@ $route['xac-thuc-dang-ky']['GET'] = 'IndexController/xac_thuc_dang_ky';
 //dashboard
 $route['dashboard']['GET'] = 'DashboardController/index';
 $route['logout']['GET'] = 'DashboardController/logout';
+$route['register-admin']['GET'] = 'LoginController/register_admin';
+$route['register-insert']['POST'] = 'LoginController/register_insert';
+
 
 //brand
 $route['brand/create']['GET'] = 'BrandController/create';
@@ -76,5 +79,12 @@ $route['order/process']['POST'] = 'OrderController/process';
 $route['order/view/(:any)']['GET'] = 'OrderController/view/$1';
 $route['order/delete/(:any)']['GET'] = 'OrderController/delete_order/$1';
 
+//slider
+$route['slider/create']['GET'] = 'SliderController/create';
+$route['slider/list']['GET'] = 'SliderController/index';
+$route['slider/delete/(:any)']['GET'] = 'SliderController/delete/$1';
+$route['slider/edit/(:any)']['GET'] = 'SliderController/edit/$1';
+$route['slider/update/(:any)']['POST'] = 'SliderController/update/$1';
+$route['slider/store']['POST'] = 'SliderController/store';
 
 
