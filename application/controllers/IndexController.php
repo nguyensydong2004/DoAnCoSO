@@ -59,7 +59,7 @@ class IndexController extends CI_Controller {
 		$config = array();
         $config["base_url"] = base_url() .'/danh-muc'.'/'.$id.'/'.$this->data['slug']; 
 		$config['total_rows'] = ceil($this->IndexModel->countAllProductByCate($id)); //đếm tất cả sản phẩm //8 //hàm ceil làm tròn phân trang 
-		$config["per_page"] = 2; //từng trang 3 sản phẩn
+		$config["per_page"] = 3; //từng trang 3 sản phẩn
         $config["uri_segment"] = 4; //lấy số trang hiện tại
 		$config['use_page_numbers'] = TRUE; //trang có số
 		$config['full_tag_open'] = '<ul class="pagination">';
@@ -82,8 +82,23 @@ class IndexController extends CI_Controller {
 		$this->pagination->initialize($config); //tự động tạo trang
 		$this->page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0; //current page active 
 		$this->data["links"] = $this->pagination->create_links(); //tự động tạo links phân trang dựa vào trang hiện tại
-		$this->data['allproductbycate_pagination'] = $this->IndexModel->getCatePagination($id,$config["per_page"], $this->page);
-
+		$this->data['min_price'] = $this->IndexModel->getMinProductPrice($id);
+		$this->data['max_price'] = $this->IndexModel->getMaXProductPrice($id);
+		if(isset($_GET['kytu'])){
+			$kytu = $_GET['kytu'];
+			$this->data['allproductbycate_pagination'] = $this->IndexModel->getCateKytuPagination($id,$kytu,$config["per_page"], $this->page);
+		}elseif(isset($_GET['gia'])){
+			$gia = $_GET['gia'];
+			$this->data['allproductbycate_pagination'] = $this->IndexModel->getCatePricePagination($id,$gia,$config["per_page"], $this->page);
+		}
+		elseif(isset($_GET['to']) && $_GET['from']){
+			$from_price = $_GET['from'];
+			$to_price = $_GET['to'];
+			$this->data['allproductbycate_pagination'] = $this->IndexModel->getCatePriceRangePagination($id,$from_price,$to_price,$config["per_page"], $this->page);
+		}
+		else{
+			$this->data['allproductbycate_pagination'] = $this->IndexModel->getCatePagination($id,$config["per_page"], $this->page);
+		}
 		//$this->data['category_product'] = $this->IndexModel->getCategoryProduct($id);
 		$this->data['title'] = $this->IndexModel->getCategoryTitle($id);
 		$this->config->config["pageTitle"] = $this->data['title'];

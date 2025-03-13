@@ -7,10 +7,36 @@
     <div class="container">
         <div class="row">
             <?php $this->load->view('pages/template/sidebar') ?>
-            <form action="<?php echo base_url('add-to-cart') ?>" method="POST">
             <div class="col-sm-9 padding-right">
                 <div class="features_items"><!--features_items-->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Lọc Theo</label>
+                                <select class="form-control select-filter" id="select-filter">
+                                    <option value="0">---Lọc theo---</option>
+                                    <option value="?kytu=asc">Ký tự A-Z</option>
+                                    <option value="?kytu=desc">Ký tự Z-A</option>
+                                    <option value="?gia=asc">Giá tăng dần</option>
+                                    <option value="?gia=desc">Giá giảm dần</option>
+                                </select>   
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <form method="GET">
+                                <p>
+                                    <label for="amount">Khoảng giá:</label>
+                                    <input type="text" id="amount" readonly="" style="border:0; color:#f6931f; font-weight:bold;">
+                                </p>
+                                <div id="slider-range"></div>
+                                <input type="hidden" class="price_from" name="from">
+                                <input type="hidden" class="price_to" name="to">
+                                <input type="submit" value="Lọc giá" class="btn btn-primary filter-price">
+                            </form>
+                        </div>
+                    </div>
                     <h2 class="title text-center"><?php echo $title ?></h2>
+                    <form action="<?php echo base_url('add-to-cart') ?>" method="POST">
                     <?php
                     foreach ($allproductbycate_pagination as $key => $pro) {
                     ?>
@@ -40,11 +66,11 @@
                     </div>   
                     <?php
                     }
-                    ?>                
+                    ?>    
+                </form>            
                 </div><!--features_items-->         
                 <?php echo $links ?>  
             </div>
-            </form>
         </div>
     </div>
 </section>
