@@ -2,7 +2,6 @@
     <div class="container">
         <div class="row">
             <?php $this->load->view('pages/template/sidebar') ?>
-            
             <div class="col-sm-9 padding-right">
                 <?php
                 foreach($product_details as $key => $pro){
@@ -16,6 +15,18 @@
                     </div>
                     <form action="<?php echo base_url('add-to-cart') ?>" method="POST">
                     <div class="col-sm-7">
+                        <?php
+                            if($this->session->flashdata('success'))
+                            {  
+                                ?>
+                                <div class="alert alert-success"><?php echo $this->session->flashdata('success') ?></div>
+                            <?php 
+                            }else if($this->session->flashdata('error')){
+                                ?>
+                                <div class="alert alert-danger"><?php echo $this->session->flashdata('error') ?></div>
+                                <?php
+                            }
+                        ?>
                         <div class="product-information"><!--/product-information-->
                             <img src="images/product-details/new.jpg" class="newarrival" alt="" />
                             <h2><?php echo $pro->title ?></h2>

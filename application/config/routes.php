@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 $route['default_controller'] = 'IndexController';
-$route['404_override'] = '';
+$route['404_override'] = 'IndexController/notfound';
 $route['translate_uri_dashes'] = FALSE;
 
 //index
@@ -21,6 +21,9 @@ $route['confirm-checkout']['POST'] = 'IndexController/confirm_checkout';
 $route['dang-xuat']['GET'] = 'IndexController/dang_xuat';
 $route['thanks']['GET'] = 'IndexController/thanks';
 $route['tim-kiem']['GET'] = 'IndexController/tim_kiem';
+//Contact
+$route['contact']['GET'] = 'IndexController/contact';
+$route['send-contact']['POST'] = 'IndexController/send_contact';
 
 //pagination
 $route['phan-trang/(:num)'] = 'IndexController/index/$1';
@@ -86,5 +89,7 @@ $route['slider/delete/(:any)']['GET'] = 'SliderController/delete/$1';
 $route['slider/edit/(:any)']['GET'] = 'SliderController/edit/$1';
 $route['slider/update/(:any)']['POST'] = 'SliderController/update/$1';
 $route['slider/store']['POST'] = 'SliderController/store';
+
+
 
 

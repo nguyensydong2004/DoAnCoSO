@@ -15,10 +15,14 @@ class IndexController extends CI_Controller {
 		$this->load->library("pagination");
 	}
 
+	public function notfound(){
+		$this->load->view('pages/template/header',$this->data);
+		$this->load->view('pages/404');
+		$this->load->view('pages/template/footer');
+	}
+
 	public function index()
 	{	
-		echo Carbon\Carbon::now('Asia/Ho_Chi_Minh');
-		echo Carbon\Carbon::tomorrow('Asia/Ho_Chi_Minh');
 		//custom config link
 		$config = array();
         $config["base_url"] = base_url() .'/phan-trang'; 
@@ -48,7 +52,7 @@ class IndexController extends CI_Controller {
 		$this->data["links"] = $this->pagination->create_links(); //tự động tạo links phân trang dựa vào trang hiện tại
 		$this->data['allproduct_pagination'] = $this->IndexModel->getIndexPagination($config["per_page"], $this->page);
 		//pagination
-		//$this->data['allproduct'] = $this->IndexModel->getAllProduct();
+		$this->data['items_categories'] = $this->IndexModel->ItemsCategories();
 		$this->load->view('pages/template/header',$this->data);
 		$this->load->view('pages/template/slider');
 		$this->load->view('pages/home',$this->data);
@@ -179,23 +183,66 @@ class IndexController extends CI_Controller {
 		}
 	}
 
+	public function contact(){
+		$this->load->view('pages/template/header',$this->data);
+		//$this->load->view('pages/template/slider',$this->data);
+		$this->load->view('pages/contact');
+		$this->load->view('pages/template/footer');
+	}
+
+	public function send_contact(){
+		$data = [
+			'name' => $this->input->post('name'),
+			'email' => $this->input->post('email'),
+			'phone' => $this->input->post('phone'),
+			'address' => $this->input->post('address'),
+			'note' =>  $this->input->post('note')
+		];
+		$result = $this->IndexModel->insertContact($data);
+		if($result){
+			$to_email = $this->input->post('email');
+			$title = "Thông tin liên hệ của khách hàng:".$this->input->post('name');
+			$message = "Thông tin liên hệ tại đây. Ghi chú: ".$this->input->post('note');
+			$this->send_mail($to_email,$title,$message);
+		}
+		$this->session->set_flashdata('success','Thêm thông tin liên hệ thành công');
+		redirect(base_url('contact'));
+	}
+
 	public function add_to_cart()
 	{
 		
 		$product_id = $this->input->post('product_id');
 		$quantity = $this->input->post('quantity');
 		$this->data['product_details'] = $this->IndexModel->getProductDetails($product_id);
-		foreach($this->data['product_details'] as $key => $pro){
-			$cart = array(
-				'id' => $pro->id,
-				'qty' => $quantity,
-				'price' => $pro->price,
-				'name' => $pro->title,
-				'options' => array('image' =>$pro->image)
-			);
+		if($this->cart->contents() > 0){
+			foreach($this->cart->contents() as $items){
+				if($items['id']==$product_id){
+					$this->session->set_flashdata('error','Sản phẩm đã có trong giỏ hàng, vui lòng cập nhập số lượng.');
+					redirect(base_url().'gio-hang','refresh');
+				}else{
+					foreach($this->data['product_details'] as $key => $pro){
+
+						if($pro->quantity >= $quantity){
+							$cart = array(
+								'id' => $pro->id,
+								'qty' => $quantity,
+								'price' => $pro->price,
+								'name' => $pro->title,
+								'options' => array('image' =>$pro->image,'in_stock'=>$pro->quantity)
+							);
+						}else{
+							$this->session->set_flashdata('error','Số lượng đặt hàng vượt quá số lượng tồn kho. Vui lòng điều chỉnh số lượng.');
+							redirect($_SERVER['HTTP_REFERER']);
+						}
+					}
+				}
+			}
+			$this->session->set_flashdata('success','Thêm vào giỏ hàng thành công');
+			$this->cart->insert($cart);
+			redirect(base_url().'gio-hang','refresh');
 		}
-		$this->cart->insert($cart);
-		redirect(base_url().'gio-hang','refresh');
+		
 		
 	}
 
@@ -209,10 +256,18 @@ class IndexController extends CI_Controller {
 		$quantity = $this->input->post('quantity');
 		foreach($this->cart->contents() as $items){
 			if($rowid == $items['rowid']){
-				$cart = array(
-					'rowid' => $rowid,
-					'qty' => $quantity,
-				);
+				if($quantity <= $items['options']['in_stock']){
+					$cart = array(
+						'rowid' => $rowid,
+						'qty' => $quantity,
+					);
+				}elseif($quantity > $items['options']['in_stock']){
+					$cart = array(
+						'rowid' => $rowid,
+						'qty' => $items['options']['in_stock'],
+					);
+				}
+				
 			}
 		}
 		$this->cart->update($cart);

@@ -1,5 +1,17 @@
 <section id="cart_items">
     <div class="container">
+        <?php
+            if($this->session->flashdata('success'))
+            {  
+                ?>
+                <div class="alert alert-success"><?php echo $this->session->flashdata('success') ?></div>
+            <?php 
+            }else if($this->session->flashdata('error')){
+                ?>
+                <div class="alert alert-danger"><?php echo $this->session->flashdata('error') ?></div>
+                <?php
+            }
+        ?>
         <div class="breadcrumbs">
             <ol class="breadcrumb">
                 <li><a href="#">Home</a></li>
@@ -17,6 +29,7 @@
                         <td class="image">Item</td>
                         <td class="price">Price</td>
                         <td class="quantity">Quantity</td>
+                        <td class="quantity">In Stock</td>
                         <td class="total">Total</td>
                         <td></td>
                     </tr>
@@ -43,10 +56,23 @@
                             <form action="<?php echo base_url('update-cart-item') ?>" method="POST">
                                 <div class="cart_quantity_button">
                                     <input type="hidden" value="<?php echo $items['rowid'] ?>" name="rowid">
-                                    <input class="cart_quantity_input" type="number" min="1" name="quantity" value="<?php echo $items['qty'] ?>" autocomplete="off" size="2">
+                                    <?php 
+                                    if($items['qty'] > $items['options']['in_stock'] ){
+                                    ?>
+                                        <input class="cart_quantity_input" type="number" min="1" name="quantity" value="<?php echo $items['options']['in_stock'] ?>" autocomplete="off" size="2">
+                                    <?php
+                                    }else{
+                                    ?>
+                                        <input class="cart_quantity_input" type="number" min="1" name="quantity" value="<?php echo $items['qty'] ?>" autocomplete="off" size="2">
+                                    <?php    
+                                    }
+                                    ?>
                                     <input type="submit" name="capnhap" class="btn btn-warning" value="Cập nhập"></input>
                                 </div>
                             </form> 
+                        </td>
+                        <td class="cart_description">
+                            <h4><?php echo $items['options']['in_stock'] ?></h4>
                         </td>
                         <td class="cart_total">
                             <p class="cart_total_price"><?php echo number_format($subtotal,0,',','.') ?>VND</p>

@@ -1,9 +1,13 @@
 <?php
 class IndexModel extends CI_Model {
+
+    public function insertContact($data){
+        return $this->db->insert('contacts',$data);
+    }
     public function getCategoryHome(){
         $query = $this->db->get_where('categories',['status'=>1]);
         return $query->result();
-      
+        
     }
     public function getBrandHome(){
         $query = $this->db->get_where('brands',['status'=>1]);
@@ -26,6 +30,19 @@ class IndexModel extends CI_Model {
         $this->db->where('category_id',$id);
         $this->db->from('products');
         return $this->db->count_all_results();
+    }
+
+    public function ItemsCategories(){
+        $this->db->select('categories.title as titlecate,products.*, categories.id');
+        $this->db->from('categories');
+        $this->db->join('products','products.category_id =categories.id');
+        $query = $this->db->get();
+        $result = $query->result_array();
+        $newArray = array();
+        foreach($result as $key =>$value) {
+            $newArray[$value['titlecate']][] = $value;
+        }
+        return $newArray;
     }
 
     public function countAllProductByBra($id){
