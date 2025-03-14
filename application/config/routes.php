@@ -25,6 +25,10 @@ $route['tim-kiem']['GET'] = 'IndexController/tim_kiem';
 $route['contact']['GET'] = 'IndexController/contact';
 $route['send-contact']['POST'] = 'IndexController/send_contact';
 
+//checkout 
+
+$route['online-checkout']['POST'] = 'OnlineCheckoutController/online_checkout';
+
 //pagination
 $route['phan-trang/(:num)'] = 'IndexController/index/$1';
 $route['phan-trang'] = 'IndexController/index/';

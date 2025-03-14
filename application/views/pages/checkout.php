@@ -86,7 +86,7 @@
                         ?>
                         <div class="login-form"><!--login form-->
                             <h2>Điền thông tin thanh toán</h2>
-                            <form onsubmit="return confirm('Xác nhận đặt hàng')" method="POST" action="<?php echo base_url('confirm-checkout')?>">
+                            <form onsubmit="return confirm('Xác nhận đặt hàng')" method="POST" action="<?php echo base_url('online-checkout')?>">
                                 <lable>Name</lable>
                                 <input type="text" name="name" placeholder="Name" />
                                 <?php echo '<span class="text text-danger">'.form_error('name').'</span>' ?>
@@ -105,8 +105,8 @@
                                     <option value="vnpay">VNPAY</option>
                                     <option></option>
                                 </select> -->
-                                <button type="submit" class="btn btn-default">Thanh toán COD</button>
-                                <button type="submit" class="btn btn-danger">Thanh toán momo</button>
+                                <button type="submit" name="cod" class="btn btn-default">Thanh toán COD</button>
+                                <button type="submit" name="payUrl" class="btn btn-danger">Thanh toán MOMO</button>
                                 <!-- <button type="submit" class="btn btn-default">Xác nhận thanh toán</button> -->
                             </form>
                         </div><!--/login form-->
