@@ -29,6 +29,9 @@ $route['send-contact']['POST'] = 'IndexController/send_contact';
 
 $route['online-checkout']['POST'] = 'OnlineCheckoutController/online_checkout';
 
+//comment
+$route['comment/send']['POST'] = 'IndexController/comment_send';
+
 //pagination
 $route['phan-trang/(:num)'] = 'IndexController/index/$1';
 $route['phan-trang'] = 'IndexController/index/';

@@ -153,6 +153,10 @@ class IndexController extends CI_Controller {
 	public function product($id)
 	{
 		$this->data['product_details'] = $this->IndexModel->getProductDetails($id);
+		foreach($this->data['product_details'] as $key => $val){
+			$category_id = $val->category_id;
+		}
+		$this->data['product_related'] = $this->IndexModel->getProductRelated($id,$category_id);
 		$this->data['title'] = $this->IndexModel->getProductTitle($id);
 		$this->config->config["pageTitle"] = $this->data['title'];
 		$this->load->view('pages/template/header',$this->data);
@@ -557,5 +561,18 @@ class IndexController extends CI_Controller {
 			$this->checkout();
 		}
 
+	}
+
+	public function comment_send(){
+		$data = [
+			'name' => $this->input->post('name_comment'),
+			'email' => $this->input->post('email_comment'),
+			'product_id' => $this->input->post('pro_id'),
+			'comment' => $this->input->post('comment'),
+			'dated' => Carbon\Carbon::now('Asia/Ho_Chi_Minh'),
+			'status' => 0,
+
+		];
+		$result = $this->IndexModel->insertComment($data);	
 	}
 }

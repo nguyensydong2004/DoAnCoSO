@@ -218,5 +218,48 @@
 			return x1 + x2;
 		}
   </script>
+  <!-- <script>
+	$('.carousel-inner').owlCarousel({
+		loop: true,
+		margin: 10,
+		responsiveClass: true,
+		responsive: {
+			0: {
+				items: 3,
+				nav: true
+			},
+			600: {
+				items: 3,
+				nav: false
+			},
+			1000: {
+				items: 3,
+				nav: true,
+				loop: false
+			}
+		}
+	});
+</script> -->
+<script>
+	$('.write-comment').click(function(){
+		var name_comment = $('.name_comment').val();
+		var email_comment = $('.email_comment').val();
+		var comment = $('.comment').val();
+		var pro_id = $('.product_id_comment').val();
+		if(name_comment== '' || name_comment== '' ||comment== ''){
+			alert("Làm ơn điền đầy đủ thông tin.")
+		}else{
+			$.ajax({
+                method:'POST',
+                url:'/comment/send',
+                data:{name_comment:name_comment,email_comment:email_comment,comment:comment, pro_id:pro_id},
+                success:function(){
+                    alert('Thêm đánh giá bình luận thành công, vui lòng chờ admin duyệt bình luận');
+                }
+            })
+		}
+		
+	})
+</script>
 </body>
 </html>
