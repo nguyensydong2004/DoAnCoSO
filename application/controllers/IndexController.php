@@ -211,39 +211,50 @@ class IndexController extends CI_Controller {
 
 	public function add_to_cart()
 	{
-		
 		$product_id = $this->input->post('product_id');
 		$quantity = $this->input->post('quantity');
 		$this->data['product_details'] = $this->IndexModel->getProductDetails($product_id);
-		if($this->cart->contents() > 0){
-			foreach($this->cart->contents() as $items){
-				if($items['id']==$product_id){
-					$this->session->set_flashdata('error','Sản phẩm đã có trong giỏ hàng, vui lòng cập nhập số lượng.');
-					redirect(base_url().'gio-hang','refresh');
-				}else{
-					foreach($this->data['product_details'] as $key => $pro){
 
-						if($pro->quantity >= $quantity){
-							$cart = array(
-								'id' => $pro->id,
-								'qty' => $quantity,
-								'price' => $pro->price,
-								'name' => $pro->title,
-								'options' => array('image' =>$pro->image,'in_stock'=>$pro->quantity)
-							);
-						}else{
-							$this->session->set_flashdata('error','Số lượng đặt hàng vượt quá số lượng tồn kho. Vui lòng điều chỉnh số lượng.');
-							redirect($_SERVER['HTTP_REFERER']);
-						}
-					}
+		// Kiểm tra xem sản phẩm có tồn tại không
+		if (empty($this->data['product_details'])) {
+			$this->session->set_flashdata('error', 'Sản phẩm không tồn tại.');
+			redirect($_SERVER['HTTP_REFERER']);
+		}
+
+		foreach ($this->data['product_details'] as $pro) {
+			// Kiểm tra số lượng tồn kho
+			if ($pro->quantity < $quantity) {
+				$this->session->set_flashdata('error', 'Số lượng đặt hàng vượt quá số lượng tồn kho. Vui lòng điều chỉnh số lượng.');
+				redirect($_SERVER['HTTP_REFERER']);
+			}
+
+			// Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+			$product_in_cart = false;
+			foreach ($this->cart->contents() as $items) {
+				if ($items['id'] == $product_id) {
+					$product_in_cart = true;
+					break;
 				}
 			}
-			$this->session->set_flashdata('success','Thêm vào giỏ hàng thành công');
-			$this->cart->insert($cart);
-			redirect(base_url().'gio-hang','refresh');
+
+			if ($product_in_cart) {
+				$this->session->set_flashdata('error', 'Sản phẩm đã có trong giỏ hàng, vui lòng cập nhật số lượng.');
+				redirect(base_url() . 'gio-hang', 'refresh');
+			} else {
+				// Thêm sản phẩm vào giỏ hàng
+				$cart = array(
+					'id' => $pro->id,
+					'qty' => $quantity,
+					'price' => $pro->price,
+					'name' => $pro->title,
+					'options' => array('image' => $pro->image, 'in_stock' => $pro->quantity)
+				);
+
+				$this->cart->insert($cart);
+				$this->session->set_flashdata('success', 'Thêm vào giỏ hàng thành công');
+				redirect(base_url() . 'gio-hang', 'refresh');
+			}
 		}
-		
-		
 	}
 
 	public function delete_all_cart(){

@@ -100,12 +100,14 @@
                                 <input type="text" name="email" placeholder="Email" />
                                 <?php echo '<span class="text text-danger">'.form_error('email').'</span>' ?>
                                 <lable>Hình thức thanh toán</lable>
-                                <select name="shipping_method">
+                                <!-- <select name="shipping_method">
                                     <option value="code">COD</option>
                                     <option value="vnpay">VNPAY</option>
                                     <option></option>
-                                </select>
-                                <button type="submit" class="btn btn-default">Xác nhận thanh toán</button>
+                                </select> -->
+                                <button type="submit" class="btn btn-default">Thanh toán COD</button>
+                                <button type="submit" class="btn btn-danger">Thanh toán momo</button>
+                                <!-- <button type="submit" class="btn btn-default">Xác nhận thanh toán</button> -->
                             </form>
                         </div><!--/login form-->
                     </div>
